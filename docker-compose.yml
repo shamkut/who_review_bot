@@ -3,8 +3,6 @@ services:
   weather:
     build: .
     #image: shamkut/who_review_bot
-    ports:
-    - 80:80
     network_mode: host
     environment:
     - PGID=1000
