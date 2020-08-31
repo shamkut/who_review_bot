@@ -1,0 +1,16 @@
+version: "3"
+services:
+  weather:
+    build: .
+    #image: shamkut/who_review_bot
+    ports:
+    - 80:80
+    network_mode: host
+    environment:
+    - PGID=1000
+    - PUID=1000
+    - TZ=Europe/Moscow
+    volumes:
+    - ./config:/usr/src/review/config
+    - ./db:/usr/src/review/db
+    restart: always
