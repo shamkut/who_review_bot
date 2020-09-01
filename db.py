@@ -58,10 +58,10 @@ class DB:
         else:
             return None
 
-    def get_reviewers(self, chat_id):
-        stmt = "select reviewer from reviewer where chat_id = (?)"
-        args = (chat_id,)
-        return [x[0] for x in self.conn.execute(stmt, args)]
+    def get_reviewers(self, chat_id, order_by=1):
+        stmt = "select reviewer, last_review_date from reviewer where chat_id = (?) and reviewer is not null order by (?)"
+        args = (chat_id, order_by,)
+        return [(x[0], x[1]) for x in self.conn.execute(stmt, args)]
 
     def update_time(self, chat_id, reviewer):
         stmt = "update reviewer set last_review_date = datetime('now','localtime') where chat_id = (?) and reviewer = (?)"

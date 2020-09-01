@@ -11,6 +11,11 @@ bot = TeleBot(config.token, parse_mode=None)
 @bot.message_handler(commands=["register"])
 def register_reviewer(message):
     reviewer = message.from_user.username
+    if reviewer is None:
+        bot.send_message(message.chat.id,
+                         text="У пользователя должен быть user id (имя пользователя). Пожалуйста, укажите его в настройках")
+        return None
+
     db = DB()
     if not db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer):
         db.add_reviewer(chat_id=message.chat.id, reviewer=reviewer)
@@ -37,7 +42,8 @@ def unregister_reviewer(message):
 @bot.message_handler(commands=["reviewers"])
 def show_reviewers(message):
     db = DB()
-    text = "\n".join(db.get_reviewers(chat_id=message.chat.id)) or "🤷"
+    items = map(lambda x: f"{x[0]}, {x[1]}", db.get_reviewers(chat_id=message.chat.id))
+    text = "\n".join(items) or "🤷"
     db.close()
     bot.send_message(message.chat.id, text=text)
 
