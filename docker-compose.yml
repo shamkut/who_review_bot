@@ -1,6 +1,6 @@
 version: "3"
 services:
-  weather:
+  who_review_me:
     build: .
     #image: shamkut/who_review_bot
     network_mode: host
