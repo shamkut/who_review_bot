@@ -50,7 +50,7 @@ def show_reviewers(message):
 @bot.message_handler(commands=["next"])
 def show_next(message):
     db = DB()
-    text = db.who_next_reviewer(chat_id=message.chat.id)
+    text = db.who_next_reviewer(chat_id=message.chat.id) or "🤷"
     db.close()
     bot.send_message(message.chat.id, text=text)
 
