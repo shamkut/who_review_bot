@@ -88,21 +88,26 @@ def review(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     if call.message:
+        chat_id = call.message.chat.id
         reporter = call.data
         reviewer_first_name = call.from_user.first_name
         reviewer = call.from_user.username
 
+        if reporter == reviewer:
+            bot.send_message(chat_id=chat_id, text=f"Нельзя ревьюить самого себя!")
+            return None
+
         db = DB()
-        if not db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer):
-            bot.send_message(message.chat.id,
+        if not db.is_reviewer_exists(chat_id=chat_id, reviewer=reviewer):
+            bot.send_message(chat_id=chat_id,
                              text=f"@{reviewer}, сначала необходимо зарегистрироваться c помощью команды /register")
             db.close()
             return None
-        db.update_time(chat_id=call.message.chat.id, reviewer=reviewer)
+        db.update_time(chat_id=chat_id, reviewer=reviewer)
         db.close()
 
         bot.reply_to(call.message, f"@{reporter}, {reviewer_first_name} взял на ревью!")
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+        bot.edit_message_text(chat_id=chat_id, message_id=call.message.message_id,
                               text=call.message.text, reply_markup=None)
 
 
