@@ -68,7 +68,9 @@ def review(message):
 
     if not reviewers:
         db = DB()
-        reviewers.append(f"@{db.get_next_reviewer(chat_id=message.chat.id, reporter=reporter)}")
+        reviewer = db.get_next_reviewer(chat_id=message.chat.id, reporter=reporter)
+        if reviewer:
+            reviewers.append(f"@{reviewer}")
         db.close()
 
     if not reviewers:
