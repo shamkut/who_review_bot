@@ -17,3 +17,13 @@ def get_msg_urls(message):
             p2 = p1 + x.length
             urls.append(message.text[p1:p2])
     return urls
+
+
+def get_msg_usernames(message):
+    unames = []
+    for x in message.entities:
+        if x.type in ["mention"]:
+            p1 = x.offset
+            p2 = p1 + x.length
+            unames.append(message.text[p1:p2])
+    return unames

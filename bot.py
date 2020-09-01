@@ -2,7 +2,6 @@ from telebot import TeleBot
 from config import Config
 from db import DB
 import bot_utils
-from datetime import datetime
 
 config = Config()
 bot = TeleBot(config.token, parse_mode=None)
@@ -62,21 +61,24 @@ def review(message):
     if not urls:
         bot.send_message(message.chat.id,
                          text="Для ревью нужна ссылка. Добавьте ссылку после команды /review")
-        q[message.chat.id] = [message.from_user.username, datetime.now()]
         return None
 
     reporter = message.from_user.username
+    reviewers = bot_utils.get_msg_usernames(message)
 
-    db = DB()
-    reviewer = db.get_next_reviewer(chat_id=message.chat.id, reporter=reporter)
-    db.close()
+    if not reviewers:
+        db = DB()
+        reviewers.append(f"@{db.get_next_reviewer(chat_id=message.chat.id, reporter=reporter)}")
+        db.close()
 
-    if not reviewer:
+    if not reviewers:
         bot.send_message(message.chat.id,
                          text="Нет зарегистрированных ревьюверов. Попросите их зарегистрироваться командой /register")
         return None
 
-    text = f"{config.review_question}\n{urls[0]}\n@{reviewer}"
+    reviewers_as_text = " ".join(reviewers)
+
+    text = f"{config.review_question}\n{urls[0]}\n{reviewers_as_text}"
     keyboard = bot_utils.create_callback_button({config.button_title: reporter})
     bot.send_message(message.chat.id, text=text, reply_markup=keyboard)
 
@@ -89,6 +91,11 @@ def callback_inline(call):
         reviewer = call.from_user.username
 
         db = DB()
+        if not db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer):
+            bot.send_message(message.chat.id,
+                             text=f"@{reviewer}, сначала необходимо зарегистрироваться c помощью команды /register")
+            db.close()
+            return None
         db.update_time(chat_id=call.message.chat.id, reviewer=reviewer)
         db.close()
 
