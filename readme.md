@@ -2,7 +2,7 @@
 
 Who_review_me - is a telegram bot aimed to help to define who is next to review
 
-The bot suggests to the user to review, who has not reviewed for a long time
+The bot suggests a review to the user, who has not reviewed for a long time
 
 ### Prerequisites
 
