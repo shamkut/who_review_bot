@@ -1,6 +1,4 @@
-### "Who review me"
-
-"Who review me" is a title of the `who_review_bot`
+### About
 
 `who_review_bot` - is a [telegram](https://telegram.org) bot aimed to help to define who is next to review
 
@@ -12,23 +10,13 @@ The bot is prepared to be run in docker with docker-composer config.
 It means that you need both docker and docker-composer installed (for this way of using)
 
 ### Installation & configuration
-1. git clone \<this repo link\>
+1. git clone [https://github.com/shamkut/who_review_bot.git](https://github.com/shamkut/who_review_bot.git)
 2. rename example .\config\example.json to .\config\review.json</ul>
 3. edit review.json
    - set the value of your token to the attribute "token"
    - set the value of your language to the attribute "language"
-
-### Runing the bot
-
-You can start and stop it using docker-composer commands in you terminal command line
-* to start
-```sh
-$ docker-compose up -d
-```
-* to stop
-```sh
-$ docker-compose down
-```
+4. run in you terminal command line ```$ docker-compose up -d ```
+5. have fun
 
 ### Usage
 
