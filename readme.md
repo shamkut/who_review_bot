@@ -1,6 +1,8 @@
 ### "Who review me"
 
-Who_review_me - is a [telegram](https://telegram.org) bot aimed to help to define who is next to review
+"Who review me" is a title of the `who_review_bot`
+
+`who_review_bot` - is a [telegram](https://telegram.org) bot aimed to help to define who is next to review
 
 The bot suggests a review to the user, who has not reviewed for a long time
 
