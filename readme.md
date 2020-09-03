@@ -50,4 +50,4 @@ Just add @who_review_me bot to the telegram group and type the backslash ("/") i
   * you can set your own translations in the attribute "dict" (if you want)
   * if you do not want set translations, the bot will translate it with the google translator to your language
 
-You can find two-letter language codes i.e. [here](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+You can find two-letter language codes [here](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
