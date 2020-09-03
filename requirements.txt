@@ -1,1 +1,2 @@
 pytelegrambotapi==3.7.3
+googletrans==3.0.0

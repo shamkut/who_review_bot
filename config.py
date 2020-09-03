@@ -9,7 +9,16 @@ class Config:
 
     def __init__(self):
         with open(os.path.join(RESOURCE_DIR, "review.json")) as f:
-            d = json.loads(f.read())
-        self.token = d.get("token")
-        self.review_question = d.get("review_question")
-        self.button_title = d.get("button_title")
+            cfg = json.loads(f.read())
+        self.token = cfg.get("token")
+        # for translation
+        self.lang = cfg.get("language", "en")
+        self.dict = self.get_dict(cfg)
+
+    def get_dict(self, cfg):
+        d = cfg.get("dict", {})
+        res = {}
+        for x, y in d.items():
+            if y.get(self.lang):
+                res[x] = y.get(self.lang)
+        return res

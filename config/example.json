@@ -1,5 +1,42 @@
 {
   "token": "put here your telegram bot token",
-  "review_question": "Кто хочет поревьюить?",
-  "button_title": "Беру!"
+  "language": "en",
+  "dict": {
+    "Who wants to review?": {
+      "ru": "Кто хочет поревьюить?"
+    },
+    "Take!": {
+      "ru": "Беру!"
+    },
+    "The telegram username (user id) should be set. Please have it set in profile": {
+      "ru": "У пользователя должен быть user id (имя пользователя). Пожалуйста, укажите его в настройках"
+    },
+    "successfully registered": {
+      "ru": "успешно зарегистрирован!"
+    },
+    "already registered": {
+      "ru": "уже есть"
+    },
+    "successfully left the bot": {
+      "ru": "успешно покинул бота"
+    },
+    "already left the bot": {
+      "ru": "уже покинул бота"
+    },
+    "The link is required to review. Add your link after the command /review": {
+      "ru": "Для ревью необходима ссылка. Добавьте ссылку после команды /review"
+    },
+    "There are no registered reviewers in the bot. Ask them to register with the command /register": {
+      "ru": "Нет зарегистрированных ревьюверов. Попросите их зарегистрироваться командой /register"
+    },
+    "It is not allowed to review yourself!": {
+      "ru": "Нельзя ревьюить самого себя!"
+    },
+    "please register first with the command /register": {
+      "ru": "сначала необходимо зарегистрироваться c помощью команды /register"
+    },
+    "your review has been taken by": {
+      "ru": "на ревью взял!"
+    }
+  }
 }
