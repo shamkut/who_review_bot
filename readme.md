@@ -1,6 +1,6 @@
 ### "Who review me"
 
-Who_review_me - is a telegram bot aimed to help to define who is next to review
+Who_review_me - is a [telegram](https://telegram.org) bot aimed to help to define who is next to review
 
 The bot suggests a review to the user, who has not reviewed for a long time
 
@@ -30,17 +30,17 @@ $ docker-compose down
 
 ### Usage
 
-Just add @who_review_me bot to the group and type the backslash ("/") in message field to see the commands and its descriptions
+Just add @who_review_me bot to the telegram group and type the backslash ("/") in message field to see the commands and its descriptions
 
 ### The bot commands
 
 * /register - to register your user to the bot
-* /review - to request a review of an article by link
+* /review - to request a review of an article by the link
    * example: /review www.mysite.com/myarticle
    * you can point the reviewer, i.e., to @natasha: /review www.mysite.com/myarticle @natasha
 * /unregister - to unregister user
-* /next - to show next reviewer
-* /reviewers - to show all reviewers
+* /next - to show the next reviewer
+* /reviewers - to show all of the reviewers
 
 <h3>Notes about language support</h3>
 * If your language is english
