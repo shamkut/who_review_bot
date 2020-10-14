@@ -1,42 +1,48 @@
 {
   "token": "put here your telegram bot token",
   "language": "en",
-  "dict": {
-    "Who wants to review?": {
-      "ru": "Кто хочет поревьюить?"
-    },
-    "Take!": {
-      "ru": "Беру!"
-    },
-    "The telegram username (user id) should be set. Please have it set in profile": {
-      "ru": "У пользователя должен быть user id (имя пользователя). Пожалуйста, укажите его в настройках"
-    },
-    "successfully registered": {
-      "ru": "успешно зарегистрирован!"
-    },
-    "already registered": {
-      "ru": "уже есть"
-    },
-    "successfully left the bot": {
-      "ru": "успешно покинул бота"
-    },
-    "already left the bot": {
-      "ru": "уже покинул бота"
-    },
-    "The link is required to review. Add your link after the command /review": {
-      "ru": "Для ревью необходима ссылка. Добавьте ссылку после команды /review"
-    },
-    "There are no registered reviewers in the bot. Ask them to register with the command /register": {
-      "ru": "Нет зарегистрированных ревьюверов. Попросите их зарегистрироваться командой /register"
-    },
-    "It is not allowed to review yourself!": {
-      "ru": "Нельзя ревьюить самого себя!"
-    },
-    "please register first with the command /register": {
-      "ru": "сначала необходимо зарегистрироваться c помощью команды /register"
-    },
-    "your review has been taken by": {
-      "ru": "на ревью взял!"
+    "dict":{
+        "Who wants to review?":
+            {"ru":"Кто хочет поревьюить?"},
+        "Take!":
+            {"ru":"Беру!"},
+        "The telegram username (user id) should be set. Please have it set in profile":
+            {"ru":"У пользователя должен быть user id (имя пользователя). Пожалуйста, укажите его в настройках"},
+        "successfully registered!":
+            {"ru":"успешно зарегистрирован!"},
+        "already registered":
+            {"ru":"уже есть"},
+        "successfully left the bot":
+            {"ru":"успешно покинул бота"},
+        "already left the bot":
+            {"ru":"уже покинул бота"},
+        "The link is required to review. Add your link after the command /review":
+            {"ru":"Для ревью необходима ссылка. Добавьте ссылку после команды /review"},
+        "There are no registered reviewers in the bot. Ask them to register with the command /register":
+            {"ru":"Нет зарегистрированных ревьюверов. Попросите их зарегистрироваться командой /register"},
+        "It is not allowed to review yourself!":
+            {"ru":"Нельзя ревьюить самого себя!"},
+        "please register first with the command /register":
+            {"ru":"сначала необходимо зарегистрироваться c помощью команды /register"},
+        "your review has been taken by":
+            {"ru":"на ревью взял"},
+        "reviewed:":
+            {"ru":"ревьювил:"},
+        ", skipped till:":
+            {"ru":", пропускает до:"},
+        "point the reviewer after the command":
+            {"ru":"укажите ревьювера после команды"},
+        "point the number of days after the command":
+            {"ru":"укажите количество дней после команды"},
+        "register the user first with the command":
+            {"ru":"сначала зарегистрируйте пользователя с помощью команды"},
+        "again with us 🤗":
+            {"ru":"снова с нами 🤗"},
+        "oh no! Too many days are set (1000 maximum)":
+            {"ru":"о нет! Задано слишком много дней (1000 максимум)"},
+        "you will skip":
+            {"ru":"вы пропустите"},
+        "days":
+            {"ru":"дней"}
     }
-  }
 }

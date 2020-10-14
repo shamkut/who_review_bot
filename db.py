@@ -13,7 +13,9 @@ class DB:
 
     def setup(self):
         stmt = "create table if not exists reviewer (" \
-               "chat_id integer, reviewer text, last_review_date DATETIME DEFAULT (datetime('now','localtime')))"
+               "chat_id integer, reviewer text, last_review_date DATETIME DEFAULT (datetime('now','localtime'))," \
+               "skip_till_date DATETIME" \
+               ")"
         self.conn.execute(stmt)
         self.conn.commit()
 
@@ -41,7 +43,9 @@ class DB:
         self.conn.commit()
 
     def get_next_reviewer(self, chat_id, reporter):
-        stmt = "select reviewer from reviewer where chat_id = (?) and reviewer <> (?) order by last_review_date limit 1"
+        stmt = "select reviewer from reviewer " \
+               "where chat_id = (?) and reviewer <> (?) and (skip_till_date < datetime('now','localtime') or skip_till_date is null) " \
+               "order by last_review_date limit 1"
         args = (chat_id, reporter,)
         x = self.conn.execute(stmt, args).fetchall()
         if x:
@@ -50,7 +54,9 @@ class DB:
             return None
 
     def who_next_reviewer(self, chat_id):
-        stmt = "select reviewer from reviewer where chat_id = (?) order by last_review_date limit 1"
+        stmt = "select reviewer from reviewer " \
+               "where chat_id = (?) and (skip_till_date < datetime('now','localtime') or skip_till_date is null) " \
+               "order by last_review_date limit 1"
         args = (chat_id,)
         x = self.conn.execute(stmt, args).fetchall()
         if x:
@@ -58,13 +64,20 @@ class DB:
         else:
             return None
 
-    def get_reviewers(self, chat_id, order_by=1):
-        stmt = "select reviewer, last_review_date from reviewer where chat_id = (?) and reviewer is not null order by (?)"
+    def get_reviewers(self, chat_id, order_by=2):
+        stmt = "select reviewer, last_review_date, case when skip_till_date > datetime('now','localtime') then skip_till_date end " \
+               "from reviewer where chat_id = (?) and reviewer is not null order by (?)"
         args = (chat_id, order_by,)
-        return [(x[0], x[1]) for x in self.conn.execute(stmt, args)]
+        return [(x[0], x[1], x[2]) for x in self.conn.execute(stmt, args)]
 
-    def update_time(self, chat_id, reviewer):
+    def update_review_time(self, chat_id, reviewer):
         stmt = "update reviewer set last_review_date = datetime('now','localtime') where chat_id = (?) and reviewer = (?)"
+        args = (chat_id, reviewer,)
+        self.conn.execute(stmt, args)
+        self.conn.commit()
+
+    def update_skip_date(self, chat_id, reviewer, ndays):
+        stmt = f"update reviewer set skip_till_date = date('now','+{ndays} day','localtime') where chat_id = (?) and reviewer = (?)"
         args = (chat_id, reviewer,)
         self.conn.execute(stmt, args)
         self.conn.commit()
