@@ -14,7 +14,7 @@ It means that you need both docker and docker-composer installed (for this way o
 2. rename example .\config\example.json to .\config\review.json</ul>
 3. edit review.json
    - set the value of your token to the attribute "token"
-   - set the value of your language to the attribute "language"
+   - set the value of your language to the attribute "language", if you need
 4. run in you terminal command line ```$ docker-compose up -d ```
 5. have fun
 
@@ -25,12 +25,19 @@ Just add @who_review_me bot to the telegram group and type the backslash ("/") i
 ### The bot commands
 
 * /register - to register your user to the bot
-* /review - to request a review of an article by the link
-   * example: /review www.mysite.com/myarticle
-   * you can point the reviewer, i.e., to @natasha: /review www.mysite.com/myarticle @natasha
+* /review, /r - to request a review of an article by the link
+   * common example: 
+      * /review www.mysite.com/myarticle
+      * /r www.mysite.com/myarticle
+   * you may suggest more than one link to review: 
+      * /r www.mysite.com/myarticle_1 www.mysite.com/myarticle_2
+   * you may specify the reviewer you want, e.g., user natasha: 
+      * /review www.mysite.com/myarticle @natasha
 * /unregister - to unregister user
 * /next - to show the next reviewer
 * /reviewers - to show all of the reviewers
+* /skip - to skip the bot user to review for the specified number of days
+   * 7 days Alex's vacation example: /skip @alex 7
 
 <h3>Notes about language support</h3>
 * If your language is english
