@@ -71,7 +71,7 @@ def skip(message):
     if digits:
         ndays = digits[0]
     else:
-        s = tl.get("point the number of days after the command") + " /skip"
+        s = tl.get("specify the natural number of days after the command") + " /skip"
         bot.send_message(message.chat.id, text=s)
         return None
 
