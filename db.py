@@ -15,8 +15,13 @@ class DB:
         stmt = "create table if not exists reviewer (" \
                "chat_id integer, reviewer text, last_review_date DATETIME DEFAULT (datetime('now','localtime'))," \
                "skip_till_date DATETIME" \
-               ")"
+               ");"
         self.conn.execute(stmt)
+        stmt = "select name from pragma_table_info('reviewer') where name = 'skip_till_date'"
+        l = list(self.conn.execute(stmt))
+        if len(l) == 0:
+            stmt = "alter table reviewer add column skip_till_date DATETIME;"
+            self.conn.execute(stmt)
         self.conn.commit()
 
     def close(self):
@@ -64,10 +69,15 @@ class DB:
         else:
             return None
 
-    def get_reviewers(self, chat_id, order_by=2):
+    def get_reviewers(self, chat_id):
         stmt = "select reviewer, last_review_date, case when skip_till_date > datetime('now','localtime') then skip_till_date end " \
-               "from reviewer where chat_id = (?) and reviewer is not null order by (?)"
-        args = (chat_id, order_by,)
+               "from reviewer where chat_id = (?) and reviewer is not null " \
+               "order by " \
+                   "case when skip_till_date < datetime('now','localtime') or skip_till_date is null " \
+                   "then last_review_date " \
+                   "else skip_till_date " \
+                   "end"
+        args = (chat_id, )
         return [(x[0], x[1], x[2]) for x in self.conn.execute(stmt, args)]
 
     def update_review_time(self, chat_id, reviewer):

@@ -43,9 +43,9 @@ def unregister_reviewer(message):
 @bot.message_handler(commands=["reviewers"])
 def show_reviewers(message):
     db = DB()
-    s = tl.get("reviewed:")
-    s2 = tl.get(", skipped till:")+" "
-    items = map(lambda x: f"{x[0]}, {s} {x[1]}{x[2] is not None and s2+str(x[2]) or ''}", db.get_reviewers(chat_id=message.chat.id))
+    s = tl.get("reviewed: ")
+    s2 = tl.get("*** skipped till: ")+" "
+    items = map(lambda x: f"{x[0]}, {x[2] is not None and s2+str(x[2]) or s+x[1]}", db.get_reviewers(chat_id=message.chat.id))
     text = "\n".join(items) or "🤷"
     db.close()
     bot.send_message(message.chat.id, text=text)
@@ -57,6 +57,7 @@ def show_next(message):
     text = db.who_next_reviewer(chat_id=message.chat.id) or "🤷"
     db.close()
     bot.send_message(message.chat.id, text=text)
+
 
 @bot.message_handler(commands=["skip"])
 def skip(message):
@@ -81,20 +82,22 @@ def skip(message):
             s = tl.get("register the user first with the command") + " /register"
             bot.send_message(chat_id=message.chat.id, text=f"{reviewer}, {s}")
         else:
-            db.update_skip_date(chat_id=message.chat.id, reviewer=reviewer, ndays=ndays)
             if ndays == 0:
+                db.update_skip_date(chat_id=message.chat.id, reviewer=reviewer, ndays=0)
                 s = tl.get("again with us 🤗")
                 bot.send_message(message.chat.id, text=f"@{reviewer} {s}")
-            elif ndays > 1000:
-                s = tl.get("oh no! Too many days are set (1000 maximum)")
-                bot.send_message(message.chat.id, text=f"@{reviewer}, {s}")
+            elif ndays > 20000:
+                s = tl.get("😱 - too many days are being requested\n > 50 years 😳🤔\n Please, enter less than 20000 days 👌")
+                bot.reply_to(message, text=s)
             else:
+                db.update_skip_date(chat_id=message.chat.id, reviewer=reviewer, ndays=ndays)
                 s = tl.get("you will skip")
                 s2 = tl.get("days")
                 bot.send_message(message.chat.id, text=f"@{reviewer}, {s} {ndays} {s2}")
     db.close()
 
-@bot.message_handler(commands=["review","r"])
+
+@bot.message_handler(commands=["review", "r"])
 def review(message):
     urls = bot_utils.get_msg_urls(message)
     if not urls:
@@ -111,6 +114,9 @@ def review(message):
         if reviewer:
             reviewers.append(f"@{reviewer}")
         db.close()
+        emo_sign = "👉"
+    else:
+        emo_sign = "🙏"
 
     if not reviewers:
         bot.send_message(message.chat.id,
@@ -121,7 +127,8 @@ def review(message):
     s = tl.get("Who wants to review?")
     reviewers_as_text = " ".join(reviewers)
     keyboard = bot_utils.create_callback_button({tl.get("Take!"): reporter})
-    bot.send_message(message.chat.id, text=f"{s}\n{urls[0]}\n{reviewers_as_text}", reply_markup=keyboard)
+    urls_as_text = '\n'.join(urls)
+    bot.send_message(message.chat.id, text=f"{s}\n{urls_as_text}\n{emo_sign}{reviewers_as_text}", reply_markup=keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: True)
