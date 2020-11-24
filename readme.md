@@ -37,7 +37,10 @@ Just add @who_review_me bot to the telegram group and type the backslash ("/") i
 * /next - to show the next reviewer
 * /reviewers - to show all of the reviewers
 * /skip - to skip the bot user to review for the specified number of days
-   * 7 days Alex's vacation example: /skip @alex 7
+   * 7 days Alex's vacation example: 
+      * /skip @alex 7
+   * to stop skipping Alex: 
+      * /skip @alex 0
 
 <h3>Notes about language support</h3>
 * If your language is english
