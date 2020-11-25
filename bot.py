@@ -63,9 +63,7 @@ def show_next(message):
 def skip(message):
     reviewers = bot_utils.get_msg_usernames(message)
     if not reviewers:
-        s = tl.get("point the reviewer after the command") + " /skip"
-        bot.send_message(message.chat.id, text=s)
-        return None
+        reviewers.append(message.from_user.username)
 
     digits = [int(s) for s in message.text.split() if s.isdigit()]
     if digits:
