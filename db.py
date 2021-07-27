@@ -70,7 +70,7 @@ class DB:
             return None
 
     def get_reviewers(self, chat_id):
-        stmt = "select reviewer, last_review_date, case when skip_till_date > datetime('now','localtime') then skip_till_date end " \
+        stmt = "select reviewer, last_review_date, datetime(case when skip_till_date > datetime('now','localtime') then skip_till_date end) " \
                "from reviewer where chat_id = (?) and reviewer is not null " \
                "order by " \
                    "case when skip_till_date < datetime('now','localtime') or skip_till_date is null " \

@@ -10,34 +10,40 @@ tl = Translate(lang=config.lang, cfg_dict=config.dict)
 
 @bot.message_handler(commands=["register"])
 def register_reviewer(message):
-    reviewer = message.from_user.username
-    if not reviewer:
+    reviewers = bot_utils.get_msg_usernames(message)
+    if not reviewers:
+        reviewers.append('@'+message.from_user.username)
+    if not reviewers and not message.from_user.username:
         bot.send_message(message.chat.id,
                          text=tl.get("The telegram username (user id) should be set. Please have it set in profile"))
         return None
     db = DB()
-
-    if db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer):
-        s = tl.get("already registered")
-    else:
-        db.add_reviewer(chat_id=message.chat.id, reviewer=reviewer)
-        s = tl.get("successfully registered!")
+    for reviewer in reviewers:
+        reviewer_name = reviewer.strip("@")
+        if db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer_name):
+            s = tl.get("already registered")
+        else:
+            db.add_reviewer(chat_id=message.chat.id, reviewer=reviewer_name)
+            s = tl.get("successfully registered!")
+        bot.send_message(message.chat.id, text=f"{reviewer} {s}")
     db.close()
-
-    bot.send_message(message.chat.id, text=f"@{reviewer} {s}")
 
 
 @bot.message_handler(commands=["unregister"])
 def unregister_reviewer(message):
-    reviewer = message.from_user.username
+    reviewers = bot_utils.get_msg_usernames(message)
+    if not reviewers:
+        reviewers.append('@'+message.from_user.username)
     db = DB()
-    if db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer):
-        db.delete_reviewer(chat_id=message.chat.id, reviewer=reviewer)
-        s = tl.get("successfully left the bot")
-    else:
-        s = tl.get("already left the bot")
+    for reviewer in reviewers:
+        reviewer_name = reviewer.strip("@")
+        if db.is_reviewer_exists(chat_id=message.chat.id, reviewer=reviewer_name):
+            db.delete_reviewer(chat_id=message.chat.id, reviewer=reviewer_name)
+            s = tl.get("successfully left the bot")
+        else:
+            s = tl.get("already left the bot")
+        bot.send_message(message.chat.id, text=f"{reviewer} {s}")
     db.close()
-    bot.send_message(message.chat.id, text=f"@{reviewer} {s}")
 
 
 @bot.message_handler(commands=["reviewers"])
